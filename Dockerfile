@@ -8,7 +8,7 @@ WORKDIR /app/ecommerce
 RUN mvn -B -f pom.xml dependency:go-offline
 
 # Copy rest of the sources and build
-COPY . .
+COPY ecommerce/src ./src
 RUN mvn -B -f pom.xml clean package -DskipTests
 
 # Runtime image: Java 17 JRE

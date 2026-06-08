@@ -1,0 +1,40 @@
+<footer class="footer">
+  <div class="footer-container">
+    <div class="footer-section">
+      <h3>🛒 ShopZone</h3>
+      <p>Your one-stop shop for everything you need. Quality products at unbeatable prices.</p>
+    </div>
+    
+    <div class="footer-section">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a routerLink="/">Home</a></li>
+        <li><a routerLink="/cart">Cart</a></li>
+        <li><a routerLink="/login">Sign In</a></li>
+        <li><a routerLink="/register">Sign Up</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer-section">
+      <h4>Categories</h4>
+      <ul>
+        <li><a routerLink="/" [queryParams]="{category: 1}">Electronics</a></li>
+        <li><a routerLink="/" [queryParams]="{category: 2}">Fashion</a></li>
+        <li><a routerLink="/" [queryParams]="{category: 3}">Books</a></li>
+        <li><a routerLink="/" [queryParams]="{category: 4}">Home & Kitchen</a></li>
+        <li><a routerLink="/" [queryParams]="{category: 5}">Sports & Fitness</a></li>
+      </ul>
+    </div>
+    
+    <div class="footer-section">
+      <h4>Contact Us</h4>
+      <p>📧 support&#64;shopzone.com</p>
+      <p>📞 +1 (555) 123-4567</p>
+      <p>📍 123 Commerce Street, NY 10001</p>
+    </div>
+  </div>
+  
+  <div class="footer-bottom">
+    <p>&copy; {{ currentYear }} ShopZone. All rights reserved. Made with ❤️</p>
+  </div>
+</footer>

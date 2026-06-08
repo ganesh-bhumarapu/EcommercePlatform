@@ -1,0 +1,115 @@
+<div class="home-container">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Welcome to <span>ShopZone</span></h1>
+      <p>Discover amazing products at unbeatable prices</p>
+    </div>
+  </section>
+
+  <!-- Categories Section -->
+  <section class="categories-section">
+    <h2>Shop by Category</h2>
+    <div class="categories-grid">
+      <div 
+        class="category-card"
+        [class.active]="selectedCategoryId() === null"
+        (click)="selectCategory(null)"
+      >
+        <div class="category-icon">🏪</div>
+        <h3>All Products</h3>
+      </div>
+      @for (category of categories(); track category.id) {
+        <div 
+          class="category-card"
+          [class.active]="selectedCategoryId() === category.id"
+          (click)="selectCategory(category.id)"
+        >
+          <div class="category-icon">
+            @switch (category.id) {
+              @case (1) { 📱 }
+              @case (2) { 👗 }
+              @case (3) { 📚 }
+              @case (4) { 🏠 }
+              @case (5) { 🏋️ }
+            }
+          </div>
+          <h3>{{ category.name }}</h3>
+          <p>{{ category.description }}</p>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- Products Section -->
+  <section class="products-section">
+    <div class="section-header">
+      <h2>
+        @if (selectedCategoryId()) {
+          {{ categories().find(c => c.id === selectedCategoryId())?.name }} Products
+        } @else if (searchQuery()) {
+          Search Results for "{{ searchQuery() }}"
+        } @else {
+          All Products
+        }
+      </h2>
+      <span class="product-count">{{ filteredProducts().length }} products</span>
+    </div>
+
+    @if (filteredProducts().length === 0) {
+      <div class="no-products">
+        <span class="no-products-icon">🔍</span>
+        <h3>No products found</h3>
+        <p>Try a different category or search term</p>
+      </div>
+    }
+
+    <div class="products-grid">
+      @for (product of filteredProducts(); track product.id) {
+        <div class="product-card" (click)="viewProduct(product.id)">
+          <div class="product-image">
+            <img [src]="product.imageUrl" [alt]="product.name" />
+            @if (!product.inStock) {
+              <div class="out-of-stock-badge">Out of Stock</div>
+            }
+            <div class="product-category">{{ product.categoryName }}</div>
+          </div>
+          
+          <div class="product-info">
+            <h3 class="product-name">{{ product.name }}</h3>
+            
+            <div class="product-rating">
+              <span class="stars">
+                @for (star of getStars(product.rating); track $index) {
+                  <span [class.filled]="star === '★'">{{ star }}</span>
+                }
+              </span>
+              <span class="rating-value">{{ product.rating }}</span>
+            </div>
+            
+            <p class="product-description">{{ product.description }}</p>
+            
+            <div class="product-footer">
+              <div class="product-price">${{ product.price.toFixed(2) }}</div>
+              
+              <button 
+                class="add-to-cart-btn"
+                [disabled]="!product.inStock"
+                [class.in-cart]="cartService.isInCart(product.id)"
+                (click)="addToCart(product, $event)"
+              >
+                @if (cartService.isInCart(product.id)) {
+                  ✓ In Cart
+                } @else if (product.inStock) {
+                  🛒 Add to Cart
+                } @else {
+                  Out of Stock
+                }
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+</div>

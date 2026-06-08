@@ -1,0 +1,153 @@
+<div class="admin-container">
+  <div class="page-header">
+    <div class="header-left">
+      <a routerLink="/admin" class="back-link">← Back to Dashboard</a>
+      <h1>Product Management</h1>
+    </div>
+    <button class="btn btn-add" (click)="openAddModal()">
+      + Add New Product
+    </button>
+  </div>
+
+  <div class="products-table-container">
+    <table class="products-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Image</th>
+          <th>Product Name</th>
+          <th>Category</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (product of products(); track product.id) {
+          <tr>
+            <td>{{ product.id }}</td>
+            <td>
+              <img [src]="product.imageUrl" [alt]="product.name" class="product-thumb" />
+            </td>
+            <td>
+              <strong>{{ product.name }}</strong>
+            </td>
+            <td>{{ product.categoryName }}</td>
+            <td class="price">${{ product.price.toFixed(2) }}</td>
+            <td>{{ product.quantity }}</td>
+            <td>
+              <span class="status-badge" [class.in-stock]="product.inStock" [class.out-stock]="!product.inStock">
+                {{ product.inStock ? 'In Stock' : 'Out of Stock' }}
+              </span>
+            </td>
+            <td class="actions">
+              <button class="btn-edit" (click)="openEditModal(product)">Edit</button>
+              <button class="btn-delete" (click)="deleteProduct(product.id)">Delete</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Add Product Modal -->
+@if (showAddModal()) {
+  <div class="modal-overlay" (click)="closeAddModal()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Add New Product</h2>
+        <button class="close-btn" (click)="closeAddModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Product Name *</label>
+          <input type="text" [ngModel]="newProduct().name" (ngModelChange)="newProduct.update(p => ({...p, name: $event}))" placeholder="Enter product name" />
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea [ngModel]="newProduct().description" (ngModelChange)="newProduct.update(p => ({...p, description: $event}))" placeholder="Enter description" rows="3"></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Price *</label>
+            <input type="number" [ngModel]="newProduct().price" (ngModelChange)="newProduct.update(p => ({...p, price: $event}))" placeholder="0.00" />
+          </div>
+          <div class="form-group">
+            <label>Quantity</label>
+            <input type="number" [ngModel]="newProduct().quantity" (ngModelChange)="newProduct.update(p => ({...p, quantity: $event}))" placeholder="5" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select [ngModel]="newProduct().categoryId" (ngModelChange)="newProduct.update(p => ({...p, categoryId: $event}))">
+            @for (category of categories(); track category.id) {
+              <option [value]="category.id">{{ category.name }}</option>
+            }
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Image URL</label>
+          <input type="text" [ngModel]="newProduct().imageUrl" (ngModelChange)="newProduct.update(p => ({...p, imageUrl: $event}))" placeholder="https://example.com/image.jpg" />
+        </div>
+        <div class="form-group">
+          <label>Rating (1-5)</label>
+          <input type="number" min="1" max="5" step="0.1" [ngModel]="newProduct().rating" (ngModelChange)="newProduct.update(p => ({...p, rating: $event}))" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-cancel" (click)="closeAddModal()">Cancel</button>
+        <button class="btn btn-save" (click)="addProduct()">Add Product</button>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- Edit Product Modal -->
+@if (showEditModal() && editingProduct()) {
+  <div class="modal-overlay" (click)="closeEditModal()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Edit Product</h2>
+        <button class="close-btn" (click)="closeEditModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Product Name *</label>
+          <input type="text" [ngModel]="editingProduct()!.name" (ngModelChange)="editingProduct.update(p => p ? {...p, name: $event} : p)" />
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea [ngModel]="editingProduct()!.description" (ngModelChange)="editingProduct.update(p => p ? {...p, description: $event} : p)" rows="3"></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Price *</label>
+            <input type="number" [ngModel]="editingProduct()!.price" (ngModelChange)="editingProduct.update(p => p ? {...p, price: $event} : p)" />
+          </div>
+          <div class="form-group">
+            <label>Quantity</label>
+            <input type="number" [ngModel]="editingProduct()!.quantity" (ngModelChange)="editingProduct.update(p => p ? {...p, quantity: $event} : p)" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Category</label>
+          <select [ngModel]="editingProduct()!.categoryId" (ngModelChange)="editingProduct.update(p => p ? {...p, categoryId: $event} : p)">
+            @for (category of categories(); track category.id) {
+              <option [value]="category.id">{{ category.name }}</option>
+            }
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Image URL</label>
+          <input type="text" [ngModel]="editingProduct()!.imageUrl" (ngModelChange)="editingProduct.update(p => p ? {...p, imageUrl: $event} : p)" />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-cancel" (click)="closeEditModal()">Cancel</button>
+        <button class="btn btn-save" (click)="updateProduct()">Save Changes</button>
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,77 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h1>Create Account 🚀</h1>
+      <p>Join ShopZone today and start shopping!</p>
+    </div>
+
+    @if (error()) {
+      <div class="error-message">
+        {{ error() }}
+      </div>
+    }
+
+    <form (ngSubmit)="register()" class="auth-form">
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <input 
+          type="text" 
+          id="name" 
+          [ngModel]="name()"
+          (ngModelChange)="name.set($event)"
+          placeholder="Enter your full name"
+          name="name"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input 
+          type="email" 
+          id="email" 
+          [ngModel]="email()"
+          (ngModelChange)="email.set($event)"
+          placeholder="Enter your email"
+          name="email"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="password-input">
+          <input 
+            [type]="showPassword() ? 'text' : 'password'" 
+            id="password" 
+            [ngModel]="password()"
+            (ngModelChange)="password.set($event)"
+            placeholder="Create a password (min 6 characters)"
+            name="password"
+          />
+          <button type="button" class="toggle-password" (click)="togglePassword()">
+            {{ showPassword() ? '👁️' : '👁️‍🗨️' }}
+          </button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input 
+          [type]="showPassword() ? 'text' : 'password'" 
+          id="confirmPassword" 
+          [ngModel]="confirmPassword()"
+          (ngModelChange)="confirmPassword.set($event)"
+          placeholder="Confirm your password"
+          name="confirmPassword"
+        />
+      </div>
+
+      <button type="submit" class="btn btn-submit">
+        Create Account
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      <p>Already have an account? <a routerLink="/login">Sign In</a></p>
+    </div>
+  </div>
+</div>

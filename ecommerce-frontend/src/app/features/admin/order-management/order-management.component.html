@@ -1,0 +1,134 @@
+<div class="admin-container">
+  <div class="page-header">
+    <div class="header-left">
+      <a routerLink="/admin" class="back-link">← Back to Dashboard</a>
+      <h1>Order Management</h1>
+    </div>
+  </div>
+
+  @if (orders().length === 0) {
+    <div class="no-orders">
+      <span class="no-orders-icon">📋</span>
+      <h2>No Orders Yet</h2>
+      <p>When customers place orders, they will appear here.</p>
+    </div>
+  } @else {
+    <div class="orders-table-container">
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Date</th>
+            <th>Items</th>
+            <th>Total Amount</th>
+            <th>Phone</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (order of orders(); track order.id) {
+            <tr>
+              <td><strong>#{{ order.id }}</strong></td>
+              <td>{{ formatDate(order.orderDate) }}</td>
+              <td>{{ order.items.length }} items</td>
+              <td class="amount">${{ order.totalAmount.toFixed(2) }}</td>
+              <td>{{ order.phoneNumber }}</td>
+              <td>
+                <span class="status-badge" [class]="order.status?.toLowerCase()">
+                  {{ order.status }}
+                </span>
+              </td>
+              <td class="actions">
+                <button class="btn-view" (click)="viewOrderDetails(order)">View Details</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+</div>
+
+<!-- Order Details Modal -->
+@if (selectedOrder()) {
+  <div class="modal-overlay" (click)="closeOrderDetails()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Order #{{ selectedOrder()!.id }}</h2>
+        <button class="close-btn" (click)="closeOrderDetails()">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="order-info">
+          <div class="info-row">
+            <span class="label">Order Date:</span>
+            <span class="value">{{ formatDate(selectedOrder()!.orderDate) }}</span>
+          </div>
+          <div class="info-row">
+            <span class="label">Status:</span>
+            <span class="status-badge" [class]="selectedOrder()!.status?.toLowerCase()">
+              {{ selectedOrder()!.status }}
+            </span>
+          </div>
+          <div class="info-row">
+            <span class="label">Phone Number:</span>
+            <span class="value">{{ selectedOrder()!.phoneNumber }}</span>
+          </div>
+          <div class="info-row">
+            <span class="label">Delivery Address:</span>
+            <span class="value">{{ selectedOrder()!.address }}</span>
+          </div>
+        </div>
+
+        <div class="order-items">
+          <h3>Order Items</h3>
+          @for (item of selectedOrder()!.items; track item.productId) {
+            <div class="order-item">
+              <div class="item-info">
+                <strong>{{ item.productName }}</strong>
+                <span>Qty: {{ item.quantity }}</span>
+              </div>
+              <div class="item-price">${{ (item.price * item.quantity).toFixed(2) }}</div>
+            </div>
+          }
+        </div>
+
+        <div class="order-total">
+          <span>Total Amount:</span>
+          <span class="total-value">${{ selectedOrder()!.totalAmount.toFixed(2) }}</span>
+        </div>
+
+        <div class="status-actions">
+          <h3>Update Status</h3>
+          <div class="status-buttons">
+            <button 
+              class="status-btn pending" 
+              (click)="updateStatus(selectedOrder()!.id!, 'PENDING')"
+              [class.active]="selectedOrder()!.status === 'PENDING'"
+            >Pending</button>
+            <button 
+              class="status-btn confirmed" 
+              (click)="updateStatus(selectedOrder()!.id!, 'CONFIRMED')"
+              [class.active]="selectedOrder()!.status === 'CONFIRMED'"
+            >Confirmed</button>
+            <button 
+              class="status-btn shipped" 
+              (click)="updateStatus(selectedOrder()!.id!, 'SHIPPED')"
+              [class.active]="selectedOrder()!.status === 'SHIPPED'"
+            >Shipped</button>
+            <button 
+              class="status-btn delivered" 
+              (click)="updateStatus(selectedOrder()!.id!, 'DELIVERED')"
+              [class.active]="selectedOrder()!.status === 'DELIVERED'"
+            >Delivered</button>
+            <button 
+              class="status-btn cancelled" 
+              (click)="updateStatus(selectedOrder()!.id!, 'CANCELLED')"
+              [class.active]="selectedOrder()!.status === 'CANCELLED'"
+            >Cancelled</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,63 @@
+<div class="admin-container">
+  <div class="admin-header">
+    <h1>Admin Dashboard</h1>
+    <p>Welcome back, {{ authService.user()?.name }}!</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon">📦</div>
+      <div class="stat-info">
+        <h3>{{ totalProducts }}</h3>
+        <p>Total Products</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">🛒</div>
+      <div class="stat-info">
+        <h3>{{ totalOrders }}</h3>
+        <p>Total Orders</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon">💰</div>
+      <div class="stat-info">
+        <h3>${{ totalRevenue.toFixed(2) }}</h3>
+        <p>Total Revenue</p>
+      </div>
+    </div>
+
+    <div class="stat-card warning">
+      <div class="stat-icon">⚠️</div>
+      <div class="stat-info">
+        <h3>{{ outOfStockProducts }}</h3>
+        <p>Out of Stock</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="admin-nav">
+    <h2>Quick Actions</h2>
+    <div class="nav-grid">
+      <a routerLink="/admin/products" class="nav-card">
+        <span class="nav-icon">📦</span>
+        <h3>Manage Products</h3>
+        <p>View, edit, add, or remove products</p>
+      </a>
+
+      <a routerLink="/admin/orders" class="nav-card">
+        <span class="nav-icon">📋</span>
+        <h3>View Orders</h3>
+        <p>See all customer orders and details</p>
+      </a>
+
+      <a routerLink="/" class="nav-card">
+        <span class="nav-icon">🏪</span>
+        <h3>View Store</h3>
+        <p>See the customer-facing store</p>
+      </a>
+    </div>
+  </div>
+</div>

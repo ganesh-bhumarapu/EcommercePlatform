@@ -1,0 +1,51 @@
+<header class="header">
+  <div class="header-container">
+    <!-- Logo -->
+    <a routerLink="/" class="logo">
+      <span class="logo-icon">🛒</span>
+      <span class="logo-text">ShopZone</span>
+    </a>
+
+    <!-- Search Bar -->
+    <div class="search-bar">
+      <input 
+        type="text" 
+        [ngModel]="searchQuery()"
+        (ngModelChange)="searchQuery.set($event)"
+        placeholder="Search products..."
+        (keyup.enter)="onSearch()"
+      />
+      <button class="search-btn" (click)="onSearch()">
+        <span>🔍</span>
+      </button>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav-links">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+      
+      @if (!authService.isLoggedIn()) {
+        <a routerLink="/login" class="btn-link">Sign In</a>
+        <a routerLink="/register" class="btn-link btn-primary">Sign Up</a>
+      }
+
+      @if (authService.isLoggedIn()) {
+        <span class="user-greeting">Hi, {{ authService.user()?.name }}</span>
+        
+        @if (authService.isAdmin()) {
+          <a routerLink="/admin" class="btn-link btn-admin">Admin Panel</a>
+        }
+        
+        <button class="btn-link btn-logout" (click)="logout()">Logout</button>
+      }
+
+      <!-- Cart -->
+      <a routerLink="/cart" class="cart-link">
+        <span class="cart-icon">🛒</span>
+        @if (cartService.cartCount() > 0) {
+          <span class="cart-count">{{ cartService.cartCount() }}</span>
+        }
+      </a>
+    </nav>
+  </div>
+</header>

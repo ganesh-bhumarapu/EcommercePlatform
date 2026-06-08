@@ -1,0 +1,104 @@
+<div class="product-detail-container">
+  @if (product()) {
+    <button class="back-btn" (click)="goBack()">
+      ← Back to Products
+    </button>
+
+    <div class="product-detail">
+      <div class="product-image-section">
+        <div class="main-image">
+          <img [src]="product()!.imageUrl" [alt]="product()!.name" />
+          @if (!product()!.inStock) {
+            <div class="out-of-stock-overlay">
+              <span>OUT OF STOCK</span>
+            </div>
+          }
+        </div>
+      </div>
+
+      <div class="product-info-section">
+        <div class="product-category-badge">{{ product()!.categoryName }}</div>
+
+        <h1 class="product-title">{{ product()!.name }}</h1>
+
+        <div class="product-rating">
+          <span class="stars">
+            @for (star of getStars(product()!.rating); track $index) {
+              <span [class.filled]="star === '★'">{{ star }}</span>
+            }
+          </span>
+          <span class="rating-value">{{ product()!.rating }} out of 5</span>
+        </div>
+
+        <div class="product-price">${{ product()!.price.toFixed(2) }}</div>
+
+        <div class="product-stock" [class.in-stock]="product()!.inStock" [class.out-stock]="!product()!.inStock">
+          @if (product()!.inStock) {
+            <span class="stock-icon">✓</span> In Stock ({{ product()!.quantity }} available)
+          } @else {
+            <span class="stock-icon">✗</span> Out of Stock
+          }
+        </div>
+
+        <div class="product-description">
+          <h3>Description</h3>
+          <p>{{ product()!.description }}</p>
+        </div>
+
+        @if (product()!.inStock) {
+          <div class="quantity-selector">
+            <span class="label">Quantity:</span>
+            <div class="quantity-controls">
+              <button class="qty-btn" (click)="decrementQuantity()" [disabled]="quantity() <= 1">−</button>
+              <span class="qty-value">{{ quantity() }}</span>
+              <button class="qty-btn" (click)="incrementQuantity()" [disabled]="isAtMax()">+</button>
+            </div>
+          </div>
+
+          <div class="action-buttons">
+            <button
+              class="btn btn-cart"
+              (click)="addToCart()"
+              [class.in-cart]="cartService.isInCart(product()!.id)"
+            >
+              @if (cartService.isInCart(product()!.id)) {
+                ✓ Added to Cart
+              } @else {
+                🛒 Add to Cart
+              }
+            </button>
+            <button class="btn btn-order" (click)="placeOrder()">
+              ⚡ Buy Now
+            </button>
+          </div>
+        } @else {
+          <div class="out-of-stock-message">
+            <p>This product is currently unavailable. Check back later!</p>
+          </div>
+        }
+
+        <div class="product-meta">
+          <div class="meta-item">
+            <span class="meta-icon">🚚</span>
+            <span>Free Delivery</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-icon">↩️</span>
+            <span>30-Day Returns</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-icon">🛡️</span>
+            <span>2 Year Warranty</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  } @else {
+    <div class="product-not-found">
+      <span class="not-found-icon">🔍</span>
+      <h2>Product not found</h2>
+      <p>The product you're looking for doesn't exist or has been removed.</p>
+      <button class="btn btn-primary" (click)="goBack()">Go Back Home</button>
+    </div>
+  }
+</div>

@@ -1,0 +1,190 @@
+.header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 15px 0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  gap: 8px;
+
+  .logo-icon {
+    font-size: 32px;
+  }
+
+  .logo-text {
+    font-family: 'Segoe UI', sans-serif;
+    letter-spacing: 1px;
+  }
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+.search-bar {
+  flex: 1;
+  max-width: 500px;
+  display: flex;
+  background: white;
+  border-radius: 50px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+  input {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    outline: none;
+    font-size: 15px;
+
+    &::placeholder {
+      color: #999;
+    }
+  }
+
+  .search-btn {
+    padding: 12px 20px;
+    background: #ff6b6b;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    span {
+      font-size: 18px;
+    }
+
+    &:hover {
+      background: #ee5a5a;
+    }
+  }
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: all 0.3s;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    &.active {
+      background: rgba(255, 255, 255, 0.25);
+    }
+  }
+
+  .btn-link {
+    padding: 10px 20px;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+
+    &.btn-primary {
+      background: #ff6b6b;
+      border-color: #ff6b6b;
+    }
+
+    &.btn-admin {
+      background: #ffd93d;
+      color: #333;
+      border-color: #ffd93d;
+      font-weight: 600;
+    }
+
+    &.btn-logout {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
+
+  .user-greeting {
+    color: white;
+    font-weight: 500;
+    padding: 8px 12px;
+  }
+
+  .cart-link {
+    position: relative;
+    font-size: 24px;
+    padding: 8px;
+
+    .cart-icon {
+      display: block;
+    }
+
+    .cart-count {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: #ff6b6b;
+      color: white;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 2px 6px;
+      border-radius: 50%;
+      min-width: 18px;
+      text-align: center;
+      line-height: 14px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .header-container {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .search-bar {
+    order: 3;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .nav-links {
+    gap: 10px;
+
+    .btn-link {
+      padding: 8px 12px;
+      font-size: 13px;
+    }
+  }
+}

@@ -9,7 +9,7 @@ import { tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly API_URL = 'http://localhost:8081/api/auth';
+  private readonly API_URL = environment.apiUrl + '/api/auth';
 
   private currentUser = signal<User | null>(null);
   isLoggedIn = signal<boolean>(false);

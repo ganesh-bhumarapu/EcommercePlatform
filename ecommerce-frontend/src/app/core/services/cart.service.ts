@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class CartService {
-  private readonly API_URL = 'http://localhost:8081/api/cart';
+  private readonly API_URL = environment.apiUrl + '/api/cart';
   private cartItems = signal<any[]>([]);
 
   constructor(private http: HttpClient) {

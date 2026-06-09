@@ -22,6 +22,7 @@ public class OrderService {
     private final CartRepository cartRepository;
 
     // Place order from cart items then clear the cart
+    @org.springframework.transaction.annotation.Transactional
     public OrderDTO placeOrder(String email, String address, String phoneNumber) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));

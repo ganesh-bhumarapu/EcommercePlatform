@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../core/services/product.service';
 import { CategoryService } from '../../core/services/category.service';
 import { CartService } from '../../core/services/cart.service';
-
+import { AuthService } from '../../core/services/auth.service';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -42,6 +42,7 @@ export class HomeComponent implements OnInit {
     private productService: ProductService,
     private categoryService: CategoryService,
     public cartService: CartService,
+    public authService: AuthService,
     private route: ActivatedRoute,
     private router: Router
   ) {}

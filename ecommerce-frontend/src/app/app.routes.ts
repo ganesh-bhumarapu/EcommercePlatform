@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/guards/auth.guard';
+import { adminGuard } from './core/guards/admin.guard';
 
 export const routes: Routes = [
   { 
@@ -11,11 +13,13 @@ export const routes: Routes = [
   },
   { 
     path: 'cart', 
-    loadComponent: () => import('./features/cart/cart.component').then(m => m.CartComponent) 
+    loadComponent: () => import('./features/cart/cart.component').then(m => m.CartComponent),
+    canActivate: [authGuard]
   },
   { 
     path: 'checkout', 
-    loadComponent: () => import('./features/checkout/checkout.component').then(m => m.CheckoutComponent) 
+    loadComponent: () => import('./features/checkout/checkout.component').then(m => m.CheckoutComponent),
+    canActivate: [authGuard]
   },
   { 
     path: 'login', 
@@ -27,15 +31,18 @@ export const routes: Routes = [
   },
   { 
     path: 'admin', 
-    loadComponent: () => import('./features/admin/dashboard/dashboard.component').then(m => m.DashboardComponent) 
+    loadComponent: () => import('./features/admin/dashboard/dashboard.component').then(m => m.DashboardComponent),
+    canActivate: [adminGuard]
   },
   { 
     path: 'admin/products', 
-    loadComponent: () => import('./features/admin/product-management/product-management.component').then(m => m.ProductManagementComponent) 
+    loadComponent: () => import('./features/admin/product-management/product-management.component').then(m => m.ProductManagementComponent),
+    canActivate: [adminGuard]
   },
   { 
     path: 'admin/orders', 
-    loadComponent: () => import('./features/admin/order-management/order-management.component').then(m => m.OrderManagementComponent) 
+    loadComponent: () => import('./features/admin/order-management/order-management.component').then(m => m.OrderManagementComponent),
+    canActivate: [adminGuard]
   },
   { 
     path: '**', 

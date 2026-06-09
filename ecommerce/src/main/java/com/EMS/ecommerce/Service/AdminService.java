@@ -25,6 +25,8 @@ public class AdminService {
                 .mapToDouble(order -> order.getTotalAmount() != null ? order.getTotalAmount() : 0)
                 .sum();
 
-        return new DashboardStats(totalOrders, totalRevenue, totalUsers, totalProducts);
+        long outOfStockProducts = productRepository.countByInStockFalse();
+
+        return new DashboardStats(totalOrders, totalRevenue, totalUsers, totalProducts, outOfStockProducts);
     }
 }

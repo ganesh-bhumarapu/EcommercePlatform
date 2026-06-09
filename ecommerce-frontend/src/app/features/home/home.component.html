@@ -92,20 +92,22 @@
             <div class="product-footer">
               <div class="product-price">${{ product.price.toFixed(2) }}</div>
               
-              <button 
-                class="add-to-cart-btn"
-                [disabled]="!product.inStock"
-                [class.in-cart]="cartService.isInCart(product.id)"
-                (click)="addToCart(product, $event)"
-              >
-                @if (cartService.isInCart(product.id)) {
-                  ✓ In Cart
-                } @else if (product.inStock) {
-                  🛒 Add to Cart
-                } @else {
-                  Out of Stock
-                }
-              </button>
+              @if (!authService.isAdmin()) {
+                <button 
+                  class="add-to-cart-btn"
+                  [disabled]="!product.inStock"
+                  [class.in-cart]="cartService.isInCart(product.id)"
+                  (click)="addToCart(product, $event)"
+                >
+                  @if (cartService.isInCart(product.id)) {
+                    ✓ In Cart
+                  } @else if (product.inStock) {
+                    🛒 Add to Cart
+                  } @else {
+                    Out of Stock
+                  }
+                </button>
+              }
             </div>
           </div>
         </div>

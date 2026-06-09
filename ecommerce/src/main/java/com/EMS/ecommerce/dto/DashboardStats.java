@@ -14,4 +14,5 @@ public class DashboardStats {
     private double totalRevenue;
     private long totalUsers;
     private long totalProducts;
+    private long outOfStockProducts;
 }

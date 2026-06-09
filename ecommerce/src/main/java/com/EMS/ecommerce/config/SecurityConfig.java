@@ -57,6 +57,9 @@ public class SecurityConfig {
                         // Admin only
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
 
+                        // User only
+                        .requestMatchers("/api/cart/**").hasRole("USER")
+
                         // Everything else requires login
                         .anyRequest().authenticated()
                 )

@@ -10,8 +10,10 @@
       <ul>
         <li><a routerLink="/">Home</a></li>
         <li><a routerLink="/cart">Cart</a></li>
-        <li><a routerLink="/login">Sign In</a></li>
-        <li><a routerLink="/register">Sign Up</a></li>
+        @if (!authService.isLoggedIn()) {
+          <li><a routerLink="/login">Sign In</a></li>
+          <li><a routerLink="/register">Sign Up</a></li>
+        }
       </ul>
     </div>
     

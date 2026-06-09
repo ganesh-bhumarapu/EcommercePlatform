@@ -49,6 +49,6 @@ export class DashboardComponent implements OnInit {
   }
 
   get outOfStockProducts(): number {
-    return 0; // The backend stats don't return this yet, so we just return 0 for now.
+    return this.stats().outOfStockProducts || 0;
   }
 }

@@ -46,31 +46,33 @@
         </div>
 
         @if (product()!.inStock) {
-          <div class="quantity-selector">
-            <span class="label">Quantity:</span>
-            <div class="quantity-controls">
-              <button class="qty-btn" (click)="decrementQuantity()" [disabled]="quantity() <= 1">−</button>
-              <span class="qty-value">{{ quantity() }}</span>
-              <button class="qty-btn" (click)="incrementQuantity()" [disabled]="isAtMax()">+</button>
+          @if (!authService.isAdmin()) {
+            <div class="quantity-selector">
+              <span class="label">Quantity:</span>
+              <div class="quantity-controls">
+                <button class="qty-btn" (click)="decrementQuantity()" [disabled]="quantity() <= 1">−</button>
+                <span class="qty-value">{{ quantity() }}</span>
+                <button class="qty-btn" (click)="incrementQuantity()" [disabled]="isAtMax()">+</button>
+              </div>
             </div>
-          </div>
 
-          <div class="action-buttons">
-            <button
-              class="btn btn-cart"
-              (click)="addToCart()"
-              [class.in-cart]="cartService.isInCart(product()!.id)"
-            >
-              @if (cartService.isInCart(product()!.id)) {
-                ✓ Added to Cart
-              } @else {
-                🛒 Add to Cart
-              }
-            </button>
-            <button class="btn btn-order" (click)="placeOrder()">
-              ⚡ Buy Now
-            </button>
-          </div>
+            <div class="action-buttons">
+              <button
+                class="btn btn-cart"
+                (click)="addToCart()"
+                [class.in-cart]="cartService.isInCart(product()!.id)"
+              >
+                @if (cartService.isInCart(product()!.id)) {
+                  ✓ Added to Cart
+                } @else {
+                  🛒 Add to Cart
+                }
+              </button>
+              <button class="btn btn-order" (click)="placeOrder()">
+                ⚡ Buy Now
+              </button>
+            </div>
+          }
         } @else {
           <div class="out-of-stock-message">
             <p>This product is currently unavailable. Check back later!</p>

@@ -4,6 +4,7 @@ import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../../core/services/product.service';
 import { CartService } from '../../../core/services/cart.service';
+import { AuthService } from '../../../core/services/auth.service';
 import { Product } from '../../../core/models/product.model';
 
 @Component({
@@ -24,6 +25,7 @@ export class ProductDetailComponent implements OnInit {
   constructor(
     private productService: ProductService,
     public cartService: CartService,
+    public authService: AuthService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
